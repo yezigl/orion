@@ -6,14 +6,12 @@
         <artifactId>orion</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <groupId>orion</groupId>
     <artifactId>orion-mongodb</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>orion</groupId>
             <artifactId>orion-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>

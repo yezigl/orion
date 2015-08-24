@@ -22,6 +22,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <orion.version>1.0.0-SNAPSHOT</orion.version>
         <cglib.version>2.2.2</cglib.version>
         <commons-collections4.version>4.0</commons-collections4.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
@@ -39,6 +40,26 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>orion</groupId>
+                <artifactId>orion-core</artifactId>
+                <version>${orion.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>orion</groupId>
+                <artifactId>orion-mongodb</artifactId>
+                <version>${orion.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>orion</groupId>
+                <artifactId>orion-mysql</artifactId>
+                <version>${orion.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>orion</groupId>
+                <artifactId>orion-web</artifactId>
+                <version>${orion.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
