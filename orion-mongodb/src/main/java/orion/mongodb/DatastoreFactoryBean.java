@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.util.Assert;
 
 import com.mongodb.MongoClient;
@@ -55,6 +56,7 @@ public class DatastoreFactoryBean implements FactoryBean<Datastore>, Initializin
         logger.info("Initializing Morphia Datastore.");
     }
 
+    @Bean(name = "datastore")
     public Datastore getObject() throws Exception {
 
         Assert.notNull(mappingPackage);
