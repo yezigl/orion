@@ -48,6 +48,7 @@ public abstract class AbstractEntityDao<E extends AbstractEntity> extends BasicD
         Key<E> key = super.save(entity);
 
         ObjectId id = (ObjectId) key.getId();
+        entity.setId(id);
         return id != null ? id.toString() : null;
     }
 

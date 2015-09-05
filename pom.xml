@@ -189,6 +189,11 @@
             <id>spring-releases</id>
             <url>https://repo.spring.io/libs-release</url>
         </repository>
+        <repository>
+            <id>orion-nexus</id>
+            <name>Orion Nexus</name>
+            <url>http://nexus.yezi.gl/nexus/content/groups/public/</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
