@@ -1,7 +1,7 @@
 /**
  * Copyright 2014 yezi.gl. All Rights Reserved.
  */
-package orion.core.utils;
+package com.orion.core.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;

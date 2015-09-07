@@ -1,4 +1,4 @@
-package orion.mongodb.dao;
+package com.orion.mongodb.dao;
 
 import java.util.Date;
 import java.util.List;
@@ -11,8 +11,7 @@ import org.mongodb.morphia.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.WriteResult;
-
-import orion.mongodb.entity.AbstractEntity;
+import com.orion.mongodb.entity.AbstractEntity;
 
 /**
  * description here

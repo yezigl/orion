@@ -1,4 +1,4 @@
-package orion.mongodb;
+package com.orion.mongodb;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
