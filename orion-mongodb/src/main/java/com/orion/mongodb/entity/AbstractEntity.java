@@ -1,4 +1,4 @@
-package orion.mongodb.entity;
+package com.orion.mongodb.entity;
 
 import java.util.Date;
 

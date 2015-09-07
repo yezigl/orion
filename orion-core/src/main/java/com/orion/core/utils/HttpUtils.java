@@ -1,7 +1,7 @@
 /**
  * Copyright 2014 yezi.gl. All Rights Reserved.
  */
-package orion.core.utils;
+package com.orion.core.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
