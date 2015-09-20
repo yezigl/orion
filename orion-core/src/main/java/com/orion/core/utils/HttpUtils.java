@@ -69,9 +69,13 @@ public class HttpUtils {
             connection.disconnect();
             result = out.toString();
         } catch (IOException e) {
-
+            logger.error("{}", e.getMessage(), e);
         }
         return result;
+    }
+    
+    public static String post(String url, Map<String, String> params) {
+        return post(url, params, DEFAULT_CHARSET);
     }
 
     public static String post(String url, Map<String, String> params, String charset) {
@@ -115,9 +119,42 @@ public class HttpUtils {
                 is.close();
             }
             connection.disconnect();
-            result = out.toString();
+            result = bout.toString();
         } catch (IOException e) {
+            logger.error("{}", e.getMessage(), e);
+        }
+        return result;
+    }
+    
+    public static String post(String url, String content) {
+        String result = "";
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setUseCaches(false);
+            connection.setConnectTimeout(connectTimeout);
+            connection.setReadTimeout(readTimeout);
 
+            String postData = content;
+
+            OutputStream out = connection.getOutputStream();
+            out.write(postData.getBytes(DEFAULT_CHARSET));
+            out.flush();
+
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            if (connection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                InputStream is = connection.getInputStream();
+                int readCount = 0;
+                while ((readCount = is.read(buffer)) > 0) {
+                    bout.write(buffer, 0, readCount);
+                }
+                is.close();
+            }
+            connection.disconnect();
+            result = bout.toString();
+        } catch (IOException e) {
+            logger.error("{}", e.getMessage(), e);
         }
         return result;
     }

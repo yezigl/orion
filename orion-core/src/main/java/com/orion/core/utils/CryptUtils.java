@@ -23,4 +23,7 @@ public class CryptUtils {
         return DigestUtils.sha1Hex(RANDOM.nextLong() + DEFAULT_SALT + System.currentTimeMillis());
     }
 
+    public static String nonce() {
+        return DigestUtils.md5Hex(RANDOM.nextLong() + DEFAULT_SALT + System.currentTimeMillis());
+    }
 }
