@@ -73,7 +73,7 @@ public class HttpUtils {
         }
         return result;
     }
-    
+
     public static String post(String url, Map<String, String> params) {
         return post(url, params, DEFAULT_CHARSET);
     }
@@ -125,7 +125,7 @@ public class HttpUtils {
         }
         return result;
     }
-    
+
     public static String post(String url, String content) {
         String result = "";
         try {
@@ -157,5 +157,38 @@ public class HttpUtils {
             logger.error("{}", e.getMessage(), e);
         }
         return result;
+    }
+
+    public static byte[] getBytes(String url, Map<String, String> header) {
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setUseCaches(false);
+            connection.setConnectTimeout(connectTimeout);
+            connection.setReadTimeout(readTimeout);
+
+            if (header != null) {
+                for (Map.Entry<String, String> entry : header.entrySet()) {
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            int responseCode = connection.getResponseCode();
+            if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+                InputStream is = connection.getInputStream();
+                int readCount = 0;
+                while ((readCount = is.read(buffer)) > 0) {
+                    out.write(buffer, 0, readCount);
+                }
+                is.close();
+            } else {
+                logger.warn("{} http response code is {}", url, responseCode);
+            }
+            connection.disconnect();
+            return out.toByteArray();
+        } catch (IOException e) {
+            logger.error("{}", e.getMessage(), e);
+        }
+        return null;
     }
 }
