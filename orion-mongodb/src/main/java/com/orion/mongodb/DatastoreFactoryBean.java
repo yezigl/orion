@@ -2,6 +2,7 @@ package com.orion.mongodb;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +20,7 @@ import org.springframework.util.Assert;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 
 @Configuration
@@ -49,10 +51,9 @@ public class DatastoreFactoryBean implements InitializingBean {
     @Value("${mophia.mappingPackage}")
     private String mappingPackage;
 
-
     public DatastoreFactoryBean() {
     }
-    
+
     public void afterPropertiesSet() throws Exception {
         logger.info("Initializing Morphia Datastore.");
     }
@@ -83,21 +84,22 @@ public class DatastoreFactoryBean implements InitializingBean {
     private MongoClient initMongo() throws UnknownHostException {
         ServerAddress address = new ServerAddress(dbHost, dbPort);
 
-        MongoClientOptions options = new MongoClientOptions.Builder()
-        .connectionsPerHost(connectionsPerHost).build();
-        
+        MongoClientOptions options = new MongoClientOptions.Builder().connectionsPerHost(connectionsPerHost).build();
+
+        MongoCredential credential = MongoCredential.createCredential(user, dbName, password.toCharArray());
+
         MongoClient mongo;
 
         // mongo = new Mongo(address, options);
         if (StringUtils.trimToNull(replicaSetSeeds) == null) {
-            mongo = new MongoClient(address, options);
+            mongo = new MongoClient(address, Arrays.asList(credential), options);
         } else { // use replica set
             String[] hosts = StringUtils.split(replicaSetSeeds);
             List<ServerAddress> addr = new ArrayList<ServerAddress>();
             for (String host : hosts) {
                 addr.add(new ServerAddress(host));
             }
-            mongo = new MongoClient(addr, options);
+            mongo = new MongoClient(addr, Arrays.asList(credential), options);
         }
 
         logger.info("Mongo options = {}, wc = {}", options.toString(), options.getWriteConcern());

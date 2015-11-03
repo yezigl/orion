@@ -9,7 +9,7 @@
 
     <groupId>orion</groupId>
     <artifactId>orion</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>orion</name>
 
@@ -32,7 +32,7 @@
         <dom4j.version>1.6.1</dom4j.version>
         <fastjson.version>1.2.4</fastjson.version>
         <jsp-api.version>2.2</jsp-api.version>
-        <mongodb.version>3.0.1</mongodb.version>
+        <mongodb.version>3.1.0</mongodb.version>
         <mybatis.version>3.2.8</mybatis.version>
         <mybatis-spring.version>1.2.2</mybatis-spring.version>
         <spring-data-redis.version>1.4.2.RELEASE</spring-data-redis.version>
