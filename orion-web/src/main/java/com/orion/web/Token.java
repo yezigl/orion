@@ -1,10 +1,12 @@
 /**
  * Copyright 2014 yezi.gl. All Rights Reserved.
  */
-package com.orion.core.utils;
+package com.orion.web;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+
+import com.orion.core.utils.AES;
 
 /**
  * description here
@@ -43,7 +45,7 @@ public class Token {
     public static Token decrypt(String ts) {
         String s = AES.decrypt(ts, SEED);
         String[] ss = StringUtils.split(s, SEPERATOR);
-        if (ss.length != 3) {
+        if (ss == null || ss.length != 3) {
             return null;
         }
         String uid = ss[0];
