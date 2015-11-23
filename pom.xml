@@ -18,6 +18,7 @@
         <module>orion-mongodb</module>
         <module>orion-mysql</module>
         <module>orion-web</module>
+        <module>orion-mvc</module>
     </modules>
 
     <properties>
@@ -53,6 +54,11 @@
             <dependency>
                 <groupId>orion</groupId>
                 <artifactId>orion-mysql</artifactId>
+                <version>${orion.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>orion</groupId>
+                <artifactId>orion-mvc</artifactId>
                 <version>${orion.version}</version>
             </dependency>
             <dependency>

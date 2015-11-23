@@ -46,7 +46,7 @@ public class SignInterceptor extends HandlerInterceptorAdapter {
             if (entry.getKey().equals(Params.SIGN)) {
                 sign = entry.getValue();
             } else {
-                builder.append(entry.getKey()).append("=").append(entry.getValue());
+                builder.append(entry.getKey()).append(entry.getValue());
                 if (entry.getKey().equals(Params.TIMESTAMP)) {
                     try {
                         timestamp = Integer.parseInt(entry.getValue());
