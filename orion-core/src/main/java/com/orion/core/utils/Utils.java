@@ -14,6 +14,8 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 public class Utils {
 
+    private static final String[] MOBILE_UA = { "Android", "iPhone", "iPad" };
+
     /**
      * 解析IP, 第一个不为unknown的ip
      * 
@@ -49,5 +51,15 @@ public class Utils {
     public static String long2ip(long ip) {
         return (ip >>> 24 & 0xFF) + "." + (ip >>> 16 & 0xFF) + "." + (ip >>> 8 & 0xFF) + "." + (ip & 0xFF);
     }
-    
+
+    public static boolean isMobile(String userAgent) {
+        if (userAgent != null) {
+            for (String kw : MOBILE_UA) {
+                if (userAgent.contains(kw)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
