@@ -3,6 +3,9 @@
  */
 package com.orion.core.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -61,5 +64,14 @@ public class Utils {
             }
         }
         return false;
+    }
+    
+    public static String encodeURL(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return s;
     }
 }

@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -190,5 +191,62 @@ public class HttpUtils {
             logger.error("{}", e.getMessage(), e);
         }
         return null;
+    }
+
+    public static String upload(String url, Map<String, String> params, String filename, byte[] bytes) {
+        String boundary = UUID.randomUUID().toString();
+        String result = "";
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setUseCaches(false);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Connection", "keep-alive");
+            connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            OutputStream out = connection.getOutputStream();
+
+            byte[] end_data = ("\r\n--" + boundary + "--\r\n").getBytes(DEFAULT_CHARSET);// 定义最后数据分隔线
+            StringBuilder sb = new StringBuilder();
+            // 添加form属性
+            if (params != null) {
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    sb.append("--");
+                    sb.append(boundary);
+                    sb.append("\r\n");
+                    sb.append("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"");
+                    sb.append("\r\n\r\n");
+                    sb.append(entry.getValue());
+                    out.write(sb.toString().getBytes(DEFAULT_CHARSET));
+                    out.write("\r\n".getBytes(DEFAULT_CHARSET));
+                }
+            }
+
+            sb = new StringBuilder();
+            sb.append("--" + boundary + "\r\n");
+            sb.append("Content-Disposition: form-data; name=\"" + filename + "\"; filename=\"showqrcode.jpg\"\r\n");
+            sb.append("Content-Type: image/jpg\r\n\r\n");
+            out.write(sb.toString().getBytes(DEFAULT_CHARSET));
+            out.write(bytes);
+            
+            out.write(end_data);
+            out.flush();
+            out.close();
+
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            if (connection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                InputStream is = connection.getInputStream();
+                int readCount = 0;
+                while ((readCount = is.read(buffer)) > 0) {
+                    bout.write(buffer, 0, readCount);
+                }
+                is.close();
+            }
+            result = bout.toString();
+            connection.disconnect();
+        } catch (Exception e) {
+            logger.error("{}", e.getMessage(), e);
+        }
+        return result;
     }
 }
