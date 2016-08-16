@@ -2,9 +2,8 @@ package com.orion.mongodb.entity;
 
 import java.util.Date;
 
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Id;
-import org.mongodb.morphia.annotations.Property;
+import org.springframework.data.annotation.Id;
+
 
 /**
  * description here
@@ -12,22 +11,20 @@ import org.mongodb.morphia.annotations.Property;
  * @author lidehua
  * @since 2015年9月1日
  */
-public abstract class AbstractEntity {
+public abstract class MongoEntity {
 
     @Id
-    private ObjectId id;
+    private String id;
     
-    @Property("ctime")
     private Date createTime;
     
-    @Property("utime")
     private Date updateTime;
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,9 +42,5 @@ public abstract class AbstractEntity {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-    
-    public String stringifyId() {
-        return id.toString();
     }
 }
