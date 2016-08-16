@@ -194,7 +194,7 @@
         <repository>
             <id>orion-nexus</id>
             <name>Orion Nexus</name>
-            <url>http://nexus.yezi.gl/nexus/content/groups/public/</url>
+            <url>http://nexus.perhapslove.xyz/nexus/content/groups/public/</url>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -208,12 +208,12 @@
         <repository>
             <id>orion-nexus-releases</id>
             <name>Orion Nexus Releases</name>
-            <url>http://nexus.perhapslove.info/nexus/content/repositories/releases/</url>
+            <url>http://nexus.perhapslove.xyz/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
             <id>orion-nexus-snapshots</id>
             <name>Orion Nexus Snapshots</name>
-            <url>http://nexus.perhapslove.info/nexus/content/repositories/snapshots/</url>
+            <url>http://nexus.perhapslove.xyz/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
