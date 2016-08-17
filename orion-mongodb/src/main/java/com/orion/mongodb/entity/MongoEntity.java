@@ -19,6 +19,14 @@ public abstract class MongoEntity {
     private Date createTime;
     
     private Date updateTime;
+    
+    /**
+     * 
+     */
+    public MongoEntity() {
+        this.createTime = new Date();
+        this.updateTime = new Date();
+    }
 
     public String getId() {
         return id;

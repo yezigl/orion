@@ -1,7 +1,7 @@
 /**
  * Copyright 2016 yezi.gl. All Rights Reserved.
  */
-package com.orion.mongodb.dao;
+package com.orion.mongodb.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author yezi
  * @since 2016年4月23日
  */
-@Deprecated
-public interface MongoDao<T> extends MongoRepository<T, String> {
+public interface OrionMongoRepository<T> extends MongoRepository<T, String> {
 
 }
