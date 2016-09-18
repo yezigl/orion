@@ -29,18 +29,34 @@ public class HttpUtils {
 
     private static int readTimeout = 15000;
 
-    private static byte[] buffer = new byte[1024];
-
     private static final String DEFAULT_CHARSET = "UTF-8";
 
+    /**
+     * GET
+     * @param url
+     * @return
+     */
     public static String get(String url) {
         return get(url, null, DEFAULT_CHARSET);
     }
 
+    /**
+     * GET
+     * @param url
+     * @param charset
+     * @return
+     */
     public static String get(String url, String charset) {
         return get(url, null, charset);
     }
 
+    /**
+     * GET
+     * @param url
+     * @param header
+     * @param charset
+     * @return
+     */
     public static String get(String url, Map<String, String> header, String charset) {
         String result = "";
         try {
@@ -59,7 +75,8 @@ public class HttpUtils {
             int responseCode = connection.getResponseCode();
             if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
                 InputStream is = connection.getInputStream();
-                int readCount = 0;
+                int readCount;
+                byte[] buffer = new byte[1024];
                 while ((readCount = is.read(buffer)) > 0) {
                     out.write(buffer, 0, readCount);
                 }
@@ -68,21 +85,42 @@ public class HttpUtils {
                 logger.warn("{} http response code is {}", url, responseCode);
             }
             connection.disconnect();
-            result = out.toString();
+            result = out.toString(charset);
         } catch (IOException e) {
             logger.error("{}", e.getMessage(), e);
         }
         return result;
     }
 
+    /**
+     * POST
+     * @param url
+     * @param params
+     * @return
+     */
     public static String post(String url, Map<String, String> params) {
         return post(url, params, DEFAULT_CHARSET);
     }
 
+    /**
+     * POST
+     * @param url
+     * @param params
+     * @param charset
+     * @return
+     */
     public static String post(String url, Map<String, String> params, String charset) {
         return post(url, params, null, charset);
     }
 
+    /**
+     * POST
+     * @param url
+     * @param params
+     * @param header
+     * @param charset
+     * @return
+     */
     public static String post(String url, Map<String, String> params, Map<String, String> header, String charset) {
         String result = "";
         try {
@@ -99,21 +137,22 @@ public class HttpUtils {
                 }
             }
 
-            String postData = "";
+            StringBuilder postData = new StringBuilder();
             if (params != null) {
                 for (Map.Entry<String, String> entry : params.entrySet()) {
-                    postData += entry.getKey() + "=" + entry.getValue() + "&";
+                    postData.append(entry.getKey() + "=" + entry.getValue() + "&");
                 }
             }
 
             OutputStream out = connection.getOutputStream();
-            out.write(postData.getBytes(charset));
+            out.write(postData.toString().getBytes(charset));
             out.flush();
 
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             if (connection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
                 InputStream is = connection.getInputStream();
-                int readCount = 0;
+                int readCount;
+                byte[] buffer = new byte[1024];
                 while ((readCount = is.read(buffer)) > 0) {
                     bout.write(buffer, 0, readCount);
                 }
@@ -127,6 +166,12 @@ public class HttpUtils {
         return result;
     }
 
+    /**
+     * POST
+     * @param url
+     * @param content
+     * @return
+     */
     public static String post(String url, String content) {
         String result = "";
         try {
@@ -146,7 +191,8 @@ public class HttpUtils {
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             if (connection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
                 InputStream is = connection.getInputStream();
-                int readCount = 0;
+                int readCount;
+                byte[] buffer = new byte[1024];
                 while ((readCount = is.read(buffer)) > 0) {
                     bout.write(buffer, 0, readCount);
                 }
@@ -160,6 +206,12 @@ public class HttpUtils {
         return result;
     }
 
+    /**
+     * 获取byte流
+     * @param url
+     * @param header
+     * @return
+     */
     public static byte[] getBytes(String url, Map<String, String> header) {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -177,7 +229,8 @@ public class HttpUtils {
             int responseCode = connection.getResponseCode();
             if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
                 InputStream is = connection.getInputStream();
-                int readCount = 0;
+                int readCount;
+                byte[] buffer = new byte[1024];
                 while ((readCount = is.read(buffer)) > 0) {
                     out.write(buffer, 0, readCount);
                 }
@@ -190,9 +243,17 @@ public class HttpUtils {
         } catch (IOException e) {
             logger.error("{}", e.getMessage(), e);
         }
-        return null;
+        return new byte[0];
     }
 
+    /**
+     * 上传byte流
+     * @param url
+     * @param params
+     * @param filename
+     * @param bytes
+     * @return
+     */
     public static String upload(String url, Map<String, String> params, String filename, byte[] bytes) {
         String boundary = UUID.randomUUID().toString();
         String result = "";
@@ -206,7 +267,7 @@ public class HttpUtils {
             connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
             OutputStream out = connection.getOutputStream();
 
-            byte[] end_data = ("\r\n--" + boundary + "--\r\n").getBytes(DEFAULT_CHARSET);// 定义最后数据分隔线
+            byte[] endData = ("\r\n--" + boundary + "--\r\n").getBytes(DEFAULT_CHARSET);// 定义最后数据分隔线
             StringBuilder sb = new StringBuilder();
             // 添加form属性
             if (params != null) {
@@ -229,14 +290,15 @@ public class HttpUtils {
             out.write(sb.toString().getBytes(DEFAULT_CHARSET));
             out.write(bytes);
             
-            out.write(end_data);
+            out.write(endData);
             out.flush();
             out.close();
 
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             if (connection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
                 InputStream is = connection.getInputStream();
-                int readCount = 0;
+                int readCount;
+                byte[] buffer = new byte[1024];
                 while ((readCount = is.read(buffer)) > 0) {
                     bout.write(buffer, 0, readCount);
                 }
