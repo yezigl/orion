@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.orion.web.Params;
 import com.orion.web.res.Representation;
@@ -24,7 +24,7 @@ import com.orion.web.res.Status;
  * @author lidehua
  * @since 2015年11月4日
  */
-public class SignInterceptor extends HandlerInterceptorAdapter {
+public class SignInterceptor implements HandlerInterceptor {
 
     private static final long EXPIRE = 5 * 60 * 1000;
 
